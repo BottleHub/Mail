@@ -6,7 +6,6 @@ import (
 	"log"
 	"mail-client/configs"
 	"mail-client/internal"
-	"mail-client/internal/cors"
 	"mail-client/internal/models"
 	"mail-client/internal/responses"
 	"net/http"
@@ -85,7 +84,6 @@ func welcomeMail(email string) {
 
 func (db *DB) AddEmail() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		cors.EnableCors(&c.Writer)
 		var email models.Email
 
 		if err := c.BindJSON(&email); err != nil {
