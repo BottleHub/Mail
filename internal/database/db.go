@@ -106,7 +106,7 @@ func (db *DB) AddEmail() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"error": err.Error()}})
 			return
 		}
-		c.JSON(http.StatusCreated, responses.Response{Status: http.StatusCreated, Message: "You've been successfully added to the waitlist.", Data: map[string]interface{}{
+		c.JSON(http.StatusCreated, responses.Response{Status: http.StatusCreated, Message: "success", Data: map[string]interface{}{
 			"id": res,
 		}})
 	}
