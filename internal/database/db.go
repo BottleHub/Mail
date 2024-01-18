@@ -70,10 +70,10 @@ func welcomeMail(email string) {
 	client := resend.NewClient(apiKey)
 
 	params := &resend.SendEmailRequest{
-		From:    "BottleHub <team@bottlehub.github.io>",
+		From:    "The BottleHub Team <team@bottlehub.xyz>",
 		To:      []string{email},
 		Subject: "Ahoy, Welcome to the Revolution",
-		Html:    "<p>Congrats mate! You've been added to the list of crew mates that are in line for the future of competitive gambling.</p><br/> <p>In the coming weeks you'll receive exclusive updates, which will include a private alpha, as well as a dicord community. Just go on out and claim tokens before we close the <a href='https://bottlehub.io/faucet'> faucet</a>.<p><br /> <p>We will send you a confirmation to claim your spot as soon as we're done with the initial test version. So look out and get ready to come aboard. <br/><br/> <strong>The BottleHub Team.</strong></p>",
+		Html:    "<p>Congrats mate! You've been added to the list of crew mates that are in line for the future of competitive gambling.</p><br/> <p>In the coming weeks you'll receive exclusive updates, which will include a private alpha, as well as a dicord community. Just go on out and claim tokens before we close the <a href='https://bottlehub.xyz/faucet'> faucet</a>.<p><br /> <p>We will send you a confirmation to claim your spot as soon as we're done with the initial test version. So look out and get ready to come aboard. <br/><br/> <strong>The BottleHub Team.</strong></p>",
 	}
 
 	_, err := client.Emails.Send(params)
@@ -100,7 +100,7 @@ func (db *DB) AddEmail() gin.HandlerFunc {
 			Address: email.Address,
 		}
 		res, cancel, err := db.resErrHelper("addresses", address)
-		//welcomeMail(email.Address)
+		welcomeMail(email.Address)
 		defer cancel()
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"error": err.Error()}})
