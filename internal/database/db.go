@@ -117,12 +117,12 @@ func (db *DB) AddEmail() gin.HandlerFunc {
 			Address: email.Address,
 		}
 
-		if db.checkEmail(address) {
+		/*if db.checkEmail(address) {
 			c.JSON(http.StatusCreated, responses.Response{Status: http.StatusCreated, Message: "success", Data: map[string]interface{}{
 				"message": "Already added email.",
 			}})
 			return
-		}
+		}*/
 
 		res, cancel, err := db.resErrHelper("addresses", address)
 		welcomeMail(email.Address)
