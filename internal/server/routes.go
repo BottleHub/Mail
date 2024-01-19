@@ -1,6 +1,7 @@
 package server
 
 import (
+	"mail-client/internal/cors"
 	"mail-client/internal/database"
 	"net/http"
 
@@ -13,7 +14,7 @@ var (
 
 func (s *Server) RegisterRoutes() http.Handler {
 	r := gin.Default()
-	//r.Use(cors.CORSMiddleware())
+	r.Use(cors.CORSMiddleware())
 
 	r.POST("/add", db.AddEmail())
 
