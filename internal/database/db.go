@@ -93,7 +93,7 @@ func (db *DB) checkEmail(address models.Email) bool {
 	err := collection.FindOne(context.TODO(), filter, opts).Decode(&result)
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 
 	return len(result.Address) != 0
@@ -117,12 +117,12 @@ func (db *DB) AddEmail() gin.HandlerFunc {
 			Address: email.Address,
 		}
 
-		/*if db.checkEmail(address) {
+		if db.checkEmail(address) {
 			c.JSON(http.StatusCreated, responses.Response{Status: http.StatusCreated, Message: "success", Data: map[string]interface{}{
 				"message": "Already added email.",
 			}})
 			return
-		}*/
+		}
 
 		res, cancel, err := db.resErrHelper("addresses", address)
 		welcomeMail(email.Address)
