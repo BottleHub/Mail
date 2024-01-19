@@ -14,6 +14,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
 	"github.com/resendlabs/resend-go"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -82,6 +83,22 @@ func welcomeMail(email string) {
 	}
 }
 
+func (db *DB) checkEmail(address models.Email) bool {
+	var result models.Email
+	collection := colHelper(db, "addresses")
+	filter := bson.D{{Key: "address", Value: address.Address}}
+	project := bson.D{{Key: "address", Value: 1}}
+	opts := options.FindOne().SetProjection(project)
+
+	err := collection.FindOne(context.TODO(), filter, opts).Decode(&result)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return len(result.Address) == 0
+}
+
 func (db *DB) AddEmail() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var email models.Email
@@ -99,6 +116,11 @@ func (db *DB) AddEmail() gin.HandlerFunc {
 		address := models.Email{
 			Address: email.Address,
 		}
+
+		if db.checkEmail(address) {
+			return
+		}
+
 		res, cancel, err := db.resErrHelper("addresses", address)
 		welcomeMail(email.Address)
 		defer cancel()
