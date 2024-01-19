@@ -96,7 +96,7 @@ func (db *DB) checkEmail(address models.Email) bool {
 		log.Fatal(err)
 	}
 
-	return len(result.Address) == 0
+	return len(result.Address) != 0
 }
 
 func (db *DB) AddEmail() gin.HandlerFunc {
