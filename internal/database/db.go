@@ -90,11 +90,7 @@ func (db *DB) checkEmail(address models.Email) bool {
 	project := bson.D{{Key: "address", Value: 1}}
 	opts := options.FindOne().SetProjection(project)
 
-	err := collection.FindOne(context.TODO(), filter, opts).Decode(&result)
-
-	if err != nil {
-		fmt.Println(err)
-	}
+	internal.Handle(collection.FindOne(context.TODO(), filter, opts).Decode(&result))
 
 	return len(result.Address) != 0
 }
